@@ -38,7 +38,7 @@ class Assurance
     #[Assert\Positive(message: "Le montant doit être positif.")]
     private ?float $montant = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ['default' => true])]
     private ?bool $active = true;
 
     #[ORM\ManyToOne(inversedBy: 'assurances')]

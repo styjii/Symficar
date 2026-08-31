@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Voiture{% endblock %}
+
+{% block body %}
+    <h1>{{ voiture.marque }} {{ voiture.modele }}</h1>
+
+    {% if assurances_expirant_bientot|length > 0 %}
+        <div class="alert alert-warning">
+            ⚠️ {{ assurances_expirant_bientot|length }} assurance(s) arrive(nt) à expiration prochainement !
+            <ul>
+                {% for assurance in assurances_expirant_bientot %}
+                    <li>{{ assurance.compagnie }} (contrat {{ assurance.numeroContrat }}) — expire le {{ assurance.dateFin|date('d/m/Y') }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ voiture.id }}</td>
+            </tr>
+            <tr>
+                <th>Marque</th>
+                <td>{{ voiture.marque }}</td>
+            </tr>
+            <tr>
+                <th>Modele</th>
+                <td>{{ voiture.modele }}</td>
+            </tr>
+            <tr>
+                <th>Immatriculation</th>
+                <td>{{ voiture.immatriculation }}</td>
+            </tr>
+            <tr>
+                <th>Annee</th>
+                <td>{{ voiture.annee }}</td>
+            </tr>
+            <tr>
+                <th>Proprietaire</th>
+                <td>
+                    {% if voiture.proprietaire %}
+                        <a href="{{ path('app_personne_show', {'id': voiture.proprietaire.id}) }}">
+                            {{ voiture.proprietaire.nom }} {{ voiture.proprietaire.prenom }}
+                        </a>
+                    {% else %}
+                        Aucun propriétaire
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Historique des assurances</h3>
+    {% if voiture.assurances|length > 0 %}
+        <ul>
+            {% for assurance in voiture.assurances %}
+                <li>
+                    {{ assurance.compagnie }} — du {{ assurance.dateDebut|date('d/m/Y') }}
+                    au {{ assurance.dateFin|date('d/m/Y') }}
+                    ({{ assurance.montant }} €)
+                    {% if assurance.active %}
+                        <strong>(active)</strong>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Aucune assurance enregistrée pour cette voiture.</p>
+    {% endif %}
+
+    <a href="{{ path('app_voiture_index') }}">back to list</a>
+
+    <a href="{{ path('app_voiture_edit', {'id': voiture.id}) }}">edit</a>
+
+    {{ include('voiture/_delete_form.html.twig') }}
+{% endblock %}
