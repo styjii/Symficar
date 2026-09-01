@@ -1,4 +1,7 @@
-{{ form_start(form) }}
+{{ form_start(form, {attr: {class: 'space-y-2'}}) }}
     {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <div class="flex gap-3 mt-6">
+        <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+        <a href="{{ path('app_assurance_index') }}" class="btn btn-ghost">Annuler</a>
+    </div>
 {{ form_end(form) }}

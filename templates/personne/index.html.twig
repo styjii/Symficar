@@ -3,41 +3,46 @@
 {% block title %}Personne index{% endblock %}
 
 {% block body %}
-    <h1>Personne index</h1>
+    <div class="p-6 max-w-6xl mx-auto">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold">Personne index</h1>
+            <a href="{{ path('app_personne_new') }}" class="btn btn-primary">Create new</a>
+        </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Prenom</th>
-                <th>Telephone</th>
-                <th>Email</th>
-                <th>NumeroPermis</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for personne in personnes %}
-            <tr>
-                <td>{{ personne.id }}</td>
-                <td>{{ personne.nom }}</td>
-                <td>{{ personne.prenom }}</td>
-                <td>{{ personne.telephone }}</td>
-                <td>{{ personne.email }}</td>
-                <td>{{ personne.numeroPermis }}</td>
-                <td>
-                    <a href="{{ path('app_personne_show', {'id': personne.id}) }}">show</a>
-                    <a href="{{ path('app_personne_edit', {'id': personne.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_personne_new') }}">Create new</a>
+        <div class="overflow-x-auto bg-base-100 rounded-box shadow">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nom</th>
+                        <th>Prenom</th>
+                        <th>Telephone</th>
+                        <th>Email</th>
+                        <th>NumeroPermis</th>
+                        <th class="text-right">actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for personne in personnes %}
+                    <tr class="hover">
+                        <td>{{ personne.id }}</td>
+                        <td>{{ personne.nom }}</td>
+                        <td>{{ personne.prenom }}</td>
+                        <td>{{ personne.telephone }}</td>
+                        <td>{{ personne.email }}</td>
+                        <td>{{ personne.numeroPermis }}</td>
+                        <td class="text-right space-x-2">
+                            <a href="{{ path('app_personne_show', {'id': personne.id}) }}" class="btn btn-sm btn-ghost">show</a>
+                            <a href="{{ path('app_personne_edit', {'id': personne.id}) }}" class="btn btn-sm btn-ghost">edit</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="7" class="text-center text-base-content/50 py-8">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}

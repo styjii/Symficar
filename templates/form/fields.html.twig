@@ -1,0 +1,61 @@
+{% use 'form_div_layout.html.twig' %}
+
+{% block form_row %}
+    {%- set row_class = row_class|default('form-control w-full mb-4') -%}
+    <div class="{{ row_class }}">
+        {{- form_label(form) -}}
+        {{- form_widget(form) -}}
+        {{- form_errors(form) -}}
+        {%- if help is not empty -%}
+            <div class="label">
+                <span class="label-text-alt text-base-content/60">{{ help }}</span>
+            </div>
+        {%- endif -%}
+    </div>
+{% endblock form_row %}
+
+{% block form_label %}
+    {%- if label is not same as(false) -%}
+        {%- if label is empty -%}
+            {%- if label_format is not empty -%}
+                {% set label = label_format|replace({'%name%': name, '%id%': id}) %}
+            {%- else -%}
+                {% set label = name|humanize %}
+            {%- endif -%}
+        {%- endif -%}
+        <label {% if id is not empty %}for="{{ id }}"{% endif %} class="label">
+            <span class="label-text">{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}{% if required %} <span class="text-error">*</span>{% endif %}</span>
+        </label>
+    {%- endif -%}
+{% endblock form_label %}
+
+{% block form_widget_simple %}
+    {%- set type = type|default('text') -%}
+    {%- set attr = attr|merge({class: (attr.class|default('') ~ ' input input-bordered w-full')|trim}) -%}
+    {{- parent() -}}
+{% endblock form_widget_simple %}
+
+{% block choice_widget_collapsed %}
+    {%- set attr = attr|merge({class: (attr.class|default('') ~ ' select select-bordered w-full')|trim}) -%}
+    {{- parent() -}}
+{% endblock choice_widget_collapsed %}
+
+{% block checkbox_row %}
+    <div class="form-control mb-4">
+        <label class="label cursor-pointer justify-start gap-3">
+            {{- form_widget(form, {attr: {class: 'checkbox checkbox-primary'}}) -}}
+            {{- form_label(form, null, {label_attr: {class: 'label-text'}}) -}}
+        </label>
+        {{- form_errors(form) -}}
+    </div>
+{% endblock checkbox_row %}
+
+{% block form_errors %}
+    {%- if errors|length > 0 -%}
+        <div class="label">
+            {%- for error in errors -%}
+                <span class="label-text-alt text-error">{{ error.message }}</span>
+            {%- endfor -%}
+        </div>
+    {%- endif -%}
+{% endblock form_errors %}

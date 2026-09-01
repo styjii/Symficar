@@ -3,43 +3,54 @@
 {% block title %}Assurance index{% endblock %}
 
 {% block body %}
-    <h1>Assurance index</h1>
+    <div class="p-6 max-w-6xl mx-auto">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold">Assurance index</h1>
+            <a href="{{ path('app_assurance_new') }}" class="btn btn-primary">Create new</a>
+        </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Compagnie</th>
-                <th>NumeroContrat</th>
-                <th>DateDebut</th>
-                <th>DateFin</th>
-                <th>Montant</th>
-                <th>Active</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for assurance in assurances %}
-            <tr>
-                <td>{{ assurance.id }}</td>
-                <td>{{ assurance.compagnie }}</td>
-                <td>{{ assurance.numeroContrat }}</td>
-                <td>{{ assurance.dateDebut ? assurance.dateDebut|date('Y-m-d') : '' }}</td>
-                <td>{{ assurance.dateFin ? assurance.dateFin|date('Y-m-d') : '' }}</td>
-                <td>{{ assurance.montant }}</td>
-                <td>{{ assurance.active ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ path('app_assurance_show', {'id': assurance.id}) }}">show</a>
-                    <a href="{{ path('app_assurance_edit', {'id': assurance.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_assurance_new') }}">Create new</a>
+        <div class="overflow-x-auto bg-base-100 rounded-box shadow">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Compagnie</th>
+                        <th>NumeroContrat</th>
+                        <th>DateDebut</th>
+                        <th>DateFin</th>
+                        <th>Montant</th>
+                        <th>Active</th>
+                        <th class="text-right">actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for assurance in assurances %}
+                    <tr class="hover">
+                        <td>{{ assurance.id }}</td>
+                        <td>{{ assurance.compagnie }}</td>
+                        <td>{{ assurance.numeroContrat }}</td>
+                        <td>{{ assurance.dateDebut ? assurance.dateDebut|date('Y-m-d') : '' }}</td>
+                        <td>{{ assurance.dateFin ? assurance.dateFin|date('Y-m-d') : '' }}</td>
+                        <td>{{ assurance.montant }}</td>
+                        <td>
+                            {% if assurance.active %}
+                                <span class="badge badge-success">Yes</span>
+                            {% else %}
+                                <span class="badge badge-ghost">No</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-right space-x-2">
+                            <a href="{{ path('app_assurance_show', {'id': assurance.id}) }}" class="btn btn-sm btn-ghost">show</a>
+                            <a href="{{ path('app_assurance_edit', {'id': assurance.id}) }}" class="btn btn-sm btn-ghost">edit</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8" class="text-center text-base-content/50 py-8">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}

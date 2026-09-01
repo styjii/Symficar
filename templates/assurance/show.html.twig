@@ -3,44 +3,58 @@
 {% block title %}Assurance{% endblock %}
 
 {% block body %}
-    <h1>Assurance</h1>
+    <div class="p-6 max-w-3xl mx-auto">
+        <div class="flex items-center gap-3 mb-6">
+            <h1 class="text-2xl font-bold">Assurance</h1>
+            {% if assurance.active %}
+                <span class="badge badge-success">Active</span>
+            {% else %}
+                <span class="badge badge-ghost">Inactive</span>
+            {% endif %}
+        </div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ assurance.id }}</td>
-            </tr>
-            <tr>
-                <th>Compagnie</th>
-                <td>{{ assurance.compagnie }}</td>
-            </tr>
-            <tr>
-                <th>NumeroContrat</th>
-                <td>{{ assurance.numeroContrat }}</td>
-            </tr>
-            <tr>
-                <th>DateDebut</th>
-                <td>{{ assurance.dateDebut ? assurance.dateDebut|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>DateFin</th>
-                <td>{{ assurance.dateFin ? assurance.dateFin|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Montant</th>
-                <td>{{ assurance.montant }}</td>
-            </tr>
-            <tr>
-                <th>Active</th>
-                <td>{{ assurance.active ? 'Yes' : 'No' }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <div class="card bg-base-100 shadow">
+            <div class="card-body">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th class="w-40">Id</th>
+                            <td>{{ assurance.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Compagnie</th>
+                            <td>{{ assurance.compagnie }}</td>
+                        </tr>
+                        <tr>
+                            <th>NumeroContrat</th>
+                            <td>{{ assurance.numeroContrat }}</td>
+                        </tr>
+                        <tr>
+                            <th>DateDebut</th>
+                            <td>{{ assurance.dateDebut ? assurance.dateDebut|date('Y-m-d') : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>DateFin</th>
+                            <td>{{ assurance.dateFin ? assurance.dateFin|date('Y-m-d') : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Montant</th>
+                            <td>{{ assurance.montant }}</td>
+                        </tr>
+                        <tr>
+                            <th>Active</th>
+                            <td>{{ assurance.active ? 'Yes' : 'No' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <a href="{{ path('app_assurance_index') }}">back to list</a>
+        <div class="flex gap-3 mt-6">
+            <a href="{{ path('app_assurance_index') }}" class="btn btn-ghost">back to list</a>
+            <a href="{{ path('app_assurance_edit', {'id': assurance.id}) }}" class="btn btn-outline">edit</a>
+        </div>
 
-    <a href="{{ path('app_assurance_edit', {'id': assurance.id}) }}">edit</a>
-
-    {{ include('assurance/_delete_form.html.twig') }}
+        {{ include('assurance/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

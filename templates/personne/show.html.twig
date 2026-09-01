@@ -3,61 +3,68 @@
 {% block title %}Personne{% endblock %}
 
 {% block body %}
-    <h1>{{ personne.nom }} {{ personne.prenom }}</h1>
+    <div class="p-6 max-w-3xl mx-auto">
+        <h1 class="text-2xl font-bold mb-6">{{ personne.nom }} {{ personne.prenom }}</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ personne.id }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ personne.nom }}</td>
-            </tr>
-            <tr>
-                <th>Prenom</th>
-                <td>{{ personne.prenom }}</td>
-            </tr>
-            <tr>
-                <th>Telephone</th>
-                <td>{{ personne.telephone }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ personne.email }}</td>
-            </tr>
-            <tr>
-                <th>NumeroPermis</th>
-                <td>{{ personne.numeroPermis }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <div class="card bg-base-100 shadow mb-6">
+            <div class="card-body">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th class="w-40">Id</th>
+                            <td>{{ personne.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Nom</th>
+                            <td>{{ personne.nom }}</td>
+                        </tr>
+                        <tr>
+                            <th>Prenom</th>
+                            <td>{{ personne.prenom }}</td>
+                        </tr>
+                        <tr>
+                            <th>Telephone</th>
+                            <td>{{ personne.telephone }}</td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td>{{ personne.email }}</td>
+                        </tr>
+                        <tr>
+                            <th>NumeroPermis</th>
+                            <td>{{ personne.numeroPermis }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <h3>Parc automobile</h3>
-    {% if personne.voitures|length > 0 %}
-        <ul>
-            {% for voiture in personne.voitures %}
-                <li>
-                    <a href="{{ path('app_voiture_show', {'id': voiture.id}) }}">
-                        {{ voiture.marque }} {{ voiture.modele }} ({{ voiture.immatriculation }})
-                    </a>
-                    {% set assuranceActive = voiture.assuranceActive %}
-                    {% if assuranceActive %}
-                        — assurée jusqu'au {{ assuranceActive.dateFin|date('d/m/Y') }}
-                    {% else %}
-                        — <span class="text-danger">aucune assurance active</span>
-                    {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Aucune voiture enregistrée pour cette personne.</p>
-    {% endif %}
+        <h3 class="text-lg font-semibold mb-3">Parc automobile</h3>
+        {% if personne.voitures|length > 0 %}
+            <ul class="space-y-2 mb-6">
+                {% for voiture in personne.voitures %}
+                    <li class="card bg-base-100 shadow-sm p-4 flex-row justify-between items-center">
+                        <a href="{{ path('app_voiture_show', {'id': voiture.id}) }}" class="link link-primary">
+                            {{ voiture.marque }} {{ voiture.modele }} ({{ voiture.immatriculation }})
+                        </a>
+                        {% set assuranceActive = voiture.assuranceActive %}
+                        {% if assuranceActive %}
+                            <span class="badge badge-success">assurée jusqu'au {{ assuranceActive.dateFin|date('d/m/Y') }}</span>
+                        {% else %}
+                            <span class="badge badge-error badge-outline">aucune assurance active</span>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-base-content/60 mb-6">Aucune voiture enregistrée pour cette personne.</p>
+        {% endif %}
 
-    <a href="{{ path('app_personne_index') }}">back to list</a>
+        <div class="flex gap-3">
+            <a href="{{ path('app_personne_index') }}" class="btn btn-ghost">back to list</a>
+            <a href="{{ path('app_personne_edit', {'id': personne.id}) }}" class="btn btn-outline">edit</a>
+        </div>
 
-    <a href="{{ path('app_personne_edit', {'id': personne.id}) }}">edit</a>
-
-    {{ include('personne/_delete_form.html.twig') }}
+        {{ include('personne/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

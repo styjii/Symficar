@@ -3,9 +3,13 @@
 {% block title %}New Voiture{% endblock %}
 
 {% block body %}
-    <h1>Create new Voiture</h1>
+    <div class="p-6 max-w-xl mx-auto">
+        <h1 class="text-2xl font-bold mb-6">Create new Voiture</h1>
 
-    {{ include('voiture/_form.html.twig') }}
+        <div class="card bg-base-100 shadow p-6">
+            {{ include('voiture/_form.html.twig') }}
+        </div>
 
-    <a href="{{ path('app_voiture_index') }}">back to list</a>
+        <a href="{{ path('app_voiture_index') }}" class="link mt-4 inline-block">back to list</a>
+    </div>
 {% endblock %}
