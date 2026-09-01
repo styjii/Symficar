@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block body %}
+    <div class="p-6 max-w-6xl mx-auto">
+        <h1 class="text-2xl font-bold mb-6">Tableau de bord</h1>
+
+        <div class="stats stats-vertical sm:stats-horizontal shadow w-full mb-8">
+            <div class="stat">
+                <div class="stat-title">Personnes</div>
+                <div class="stat-value text-primary">{{ nb_personnes }}</div>
+                <div class="stat-desc">
+                    <a href="{{ path('app_personne_index') }}" class="link">Voir la liste</a>
+                </div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-title">Voitures</div>
+                <div class="stat-value text-primary">{{ nb_voitures }}</div>
+                <div class="stat-desc">
+                    <a href="{{ path('app_voiture_index') }}" class="link">Voir la liste</a>
+                </div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-title">Assurances</div>
+                <div class="stat-value text-primary">{{ nb_assurances }}</div>
+                <div class="stat-desc">
+                    <a href="{{ path('app_assurance_index') }}" class="link">Voir la liste</a>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="text-lg font-semibold mb-3">Assurances arrivant à expiration (30 jours)</h2>
+        {% if assurances_expirant_bientot|length > 0 %}
+            <div class="overflow-x-auto bg-base-100 rounded-box shadow">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Compagnie</th>
+                            <th>Numero contrat</th>
+                            <th>Voiture</th>
+                            <th>Date de fin</th>
+                            <th class="text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for assurance in assurances_expirant_bientot %}
+                            <tr class="hover">
+                                <td>{{ assurance.compagnie }}</td>
+                                <td>{{ assurance.numeroContrat }}</td>
+                                <td>
+                                    {% if assurance.voiture %}
+                                        <a href="{{ path('app_voiture_show', {'id': assurance.voiture.id}) }}" class="link link-primary">
+                                            {{ assurance.voiture.marque }} {{ assurance.voiture.modele }} ({{ assurance.voiture.immatriculation }})
+                                        </a>
+                                    {% endif %}
+                                </td>
+                                <td><span class="badge badge-warning">{{ assurance.dateFin|date('d/m/Y') }}</span></td>
+                                <td class="text-right">
+                                    <a href="{{ path('app_assurance_show', {'id': assurance.id}) }}" class="btn btn-sm btn-ghost">Voir</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div role="alert" class="alert alert-success">
+                <span>✅ Aucune assurance n'arrive à expiration dans les 30 prochains jours.</span>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
