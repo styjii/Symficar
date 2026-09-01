@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier l'utilisateur{% endblock %}
+
+{% block body %}
+    <div class="p-6 max-w-xl mx-auto">
+        <h1 class="text-2xl font-bold mb-6">Modifier {{ user.email }}</h1>
+
+        <div class="card bg-base-100 shadow p-6">
+            {{ include('user/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+        </div>
+
+        <a href="{{ path('app_user_index') }}" class="link mt-4 inline-block">← Retour à la liste</a>
+
+        {{ include('user/_delete_form.html.twig') }}
+    </div>
+{% endblock %}
